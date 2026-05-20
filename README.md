@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+# Representación Visual Interactiva de Accidentes
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Stack Tecnológico
+* **Frontend:** React (Componentes funcionales y Hooks).
+* **Librería Gráfica:** Konva / React-Konva (Renderizado optimizado en HTML5 Canvas).
+* **Estilos:** CSS3 (Layout estructurado mediante Flexbox nativo).
 
-In the project directory, you can run:
+## 🚀 Instrucciones de Ejecución
 
-### `npm start`
+Sigue estos pasos para instalar y ejecutar el proyecto localmente en tu ordenador:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 1. Prerrequisitos
+Asegúrate de tener instalado [Node.js](https://nodejs.org/) junto con `npm`.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 2. Clonación e Instalación
+Clona este repositorio de GitHub y accede a la carpeta del proyecto:
 
-### `npm test`
+```bash
+# Clona el repositorio
+git clone [https://github.com/TU_USUARIO/TU_REPOSITORIO.git](https://github.com/TU_USUARIO/TU_REPOSITORIO.git)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Accede al directorio
+cd prueba2
 
-### `npm run build`
+#Instala todas las dependencias necesarias definidas en el package.json
+npm install
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#Arranca la aplicación en el entorno de desarrollo:
+npm start
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Modelo de Datos de la Escena
 
-### `npm run eject`
+Para gestionar la información de la escena de forma eficiente y reactiva, se ha implementado un modelo de datos basado en el **estado de React (`useState`)**. Este estado actúa como la **única fuente de verdad (Single Source of Truth)** para la interfaz gráfica renderizada por Konva.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+El modelo de la escena consiste en un arreglo (`Array`) de objetos JSON. Cada objeto representa un elemento individual en el lienzo y mantiene una estructura estandarizada y escalable:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* **`id`** (`string`): Identificador único (generado mediante timestamp) necesario para que React optimice el renderizado de listas y para identificar qué elemento se está manipulando.
+* **`type`** (`string`): Define la categoría del elemento (`'car'`, `'obstacle'`, `'tree'`). Este atributo determina la lógica de renderizado (qué figura geométrica o componente de Konva instanciar).
+* **`x` / `y`** (`number`): Coordenadas cartesianas actuales del elemento en el Canvas. Se actualizan dinámicamente mediante el evento `onDragEnd`, redondeando los valores para mantener un JSON limpio.
+* **`properties`** (`object`): Objeto anidado que encapsula los metadatos y propiedades visuales específicas de cada elemento (color, dimensiones, etiquetas de texto). Esto permite que el modelo sea fácilmente escalable si en el futuro se necesitan nuevas propiedades (por ejemplo: rotación, nivel de daño, velocidad) sin alterar la estructura base.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Flujo de sincronización:**
+La arquitectura del flujo de datos es unidireccional. Las interacciones del usuario en el Canvas (como arrastrar un vehículo) no mutan el gráfico directamente, sino que disparan una actualización inmutable en el estado de React. Al detectar el cambio, React fuerza a Konva a repintar el elemento en sus nuevas coordenadas, garantizando que el modelo visual y el modelo de datos (JSON) estén siempre perfectamente sincronizados.
