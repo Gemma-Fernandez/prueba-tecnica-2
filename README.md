@@ -18,7 +18,7 @@ Clona este repositorio de GitHub y accede a la carpeta del proyecto:
 
 ```bash
 # Clona el repositorio
-git clone [https://github.com/TU_USUARIO/TU_REPOSITORIO.git](https://github.com/TU_USUARIO/TU_REPOSITORIO.git)
+git clone [https://github.com/Gemma-Fernandez/prueba-tecnica-2.git]
 
 # Accede al directorio
 cd prueba2
