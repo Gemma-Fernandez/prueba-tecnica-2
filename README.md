@@ -6,7 +6,7 @@
 * **Librería Gráfica:** Konva / React-Konva (Renderizado optimizado en HTML5 Canvas).
 * **Estilos:** CSS3 (Layout estructurado mediante Flexbox nativo).
 
-## 🚀 Instrucciones de Ejecución
+## Instrucciones de Ejecución
 
 Sigue estos pasos para instalar y ejecutar el proyecto localmente en tu ordenador:
 
